@@ -65,15 +65,12 @@ fn validate_product_key(product_key: &str) -> bool {
 		.parse()
 		.unwrap_or_default();
 	let block_b: usize = product_key[4..]
-    .parse::<usize>()
-    .unwrap_or_default()
-    .to_string()
-    .chars()
-    .filter_map(|c| c
-		.to_digit(10)
-	)
-    .map(|d| d as usize)
-    .sum();
+    	.chars()
+    	.filter_map(|c| c
+			.to_digit(10)
+		)
+    	.map(|d| d as usize)
+    	.sum();
 	if (product_key
 			.len() != 11) ||
 		(block_a % 111 == 0 && block_a >= 3 && block_a <= 9) ||
@@ -82,6 +79,7 @@ fn validate_product_key(product_key: &str) -> bool {
 			.nth(3) != Some('-')) ||
 		(block_b % 7 != 0) {
 		return false;
+	} else {
+		return true;
 	}
-	true
 }
