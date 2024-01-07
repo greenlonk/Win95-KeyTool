@@ -82,8 +82,7 @@ fn validate_product_key(product_key: &str) -> bool {
 			.chars()
 			.nth(3) != Some('-')
 		) ||
-		(block_b % 7 != 0
-		) {
+		(block_b % 7 != 0) {
 		return false;
 	} else {
 		return true;
