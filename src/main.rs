@@ -72,12 +72,18 @@ fn validate_product_key(product_key: &str) -> bool {
     	.map(|d| d as usize)
     	.sum();
 	if (product_key
-			.len() != 11) ||
-		(block_a % 111 == 0 && block_a >= 3 && block_a <= 9) ||
+			.len() != 11
+		) ||
+		(block_a % 111 == 0 &&
+			block_a >= 3 &&
+			block_a <= 9
+		) ||
 		(product_key
 			.chars()
-			.nth(3) != Some('-')) ||
-		(block_b % 7 != 0) {
+			.nth(3) != Some('-')
+		) ||
+		(block_b % 7 != 0
+		) {
 		return false;
 	} else {
 		return true;
