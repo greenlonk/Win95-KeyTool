@@ -7,7 +7,7 @@ fn main() {
 	// Get arguments from terminal
 	let args: Vec<String> = env::args()
 		.collect();
-	println!("Win95 Key Tool");
+	println!("[Win95 Key Tool]");
 	// Check how many arguments are available
 	if args
 		.len() != 2 {
