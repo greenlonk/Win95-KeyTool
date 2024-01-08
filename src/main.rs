@@ -24,12 +24,14 @@ fn main() {
 	else if validate_product_key(product_key) {
 		println!("Valid key: {}", product_key);
 	}
-	else {println!("Invalid key: {}", product_key);}
+	else {
+		println!("Invalid key: {}", product_key);
+	}
 }
 fn generate_product_key() -> String {
 	let mut rng = rand::thread_rng();
 	loop {
-		let block_a: u32 = (0..3)
+		let block_a: u32 = (0..=2)
 			.map(|_| rng
 				.gen_range('0'..='9')
 				.to_digit(10)
