@@ -36,7 +36,7 @@ fn generate_product_key() -> String {
 				.unwrap_or_default()
 			)
 			.fold(0, |acc, digit| acc * 10 + digit);
-		if !(block_a % 111 == 0 && block_a >= 3 && block_a <= 9) {
+		if !((3..=9).contains(&(block_a / 111)) && block_a % 111 == 0) {
 			let block_b: u32 = (0..7)
 			.map(|_| rng
 				.gen_range('0'..='8')
@@ -74,10 +74,9 @@ fn validate_product_key(product_key: &str) -> bool {
 	if (product_key
 			.len() != 11
 		) ||
-		(block_a % 111 == 0 &&
-			block_a >= 3 &&
-			block_a <= 9
-		) ||
+		((3..=9)
+			.contains(&(block_a / 111)) &&
+			block_a % 111 == 0) ||
 		(product_key
 			.chars()
 			.nth(3) != Some('-')
