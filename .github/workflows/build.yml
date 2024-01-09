@@ -9,6 +9,13 @@ jobs:
     steps:
       - name: Checking out repository
         uses: actions/checkout@v4
+      - name: Restore Windows Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo
+            target
+          key: windows-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -17,12 +24,26 @@ jobs:
         run: cargo build --release --target x86_64-pc-windows-msvc
       - name: Build for Windows (ARM)
         run: cargo build --release --target aarch64-pc-windows-msvc
+      - name: Save Windows Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo
+            target
+          key: windows-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
   macos:
     name: macOS
     runs-on: macos-latest
     steps:
       - name: Checking out repository
         uses: actions/checkout@v4
+      - name: Restore macOS Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo
+            target
+          key: macos-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -31,15 +52,36 @@ jobs:
         run: cargo build --release --target x86_64-apple-darwin
       - name: Build for macOS (ARM)
         run: cargo build --release --target aarch64-apple-darwin
+      - name: Save macOS Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo
+            target
+          key: macos-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
   linux:
     name: Linux
     runs-on: ubuntu-latest
     steps:
       - name: Checking out repository
         uses: actions/checkout@v4
+      - name: Restore Linux Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo
+            target
+          key: linux-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: x86_64-unknown-linux-gnu
       - name: Build for Linux (x86)
         run: cargo build --release --target x86_64-unknown-linux-gnu
+      - name: Save Linux Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo
+            target
+          key: linux-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
