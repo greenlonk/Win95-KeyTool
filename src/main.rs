@@ -38,16 +38,15 @@ fn generate_product_key() -> String {
 		if !(((3..=9).contains(&(block_a / 111))) && block_a % 111 == 0) {
 			loop {
 				// Generate second block of the product key
-				let block_b: u32 = (0..=6)
-					.map(|_| rng
-						.gen_range('0'..='8')
-						.to_digit(10)
-						.unwrap_or_default()
-				)
-				.fold(0, |acc, digit| acc * 10 + digit);
+				let block_b: u32 = rng
+					.gen_range(1000000..=8888888);
 				// Check if it matches all rules
-				if vec![block_b]
-					.iter()
+				if block_b
+					.to_string()
+					.chars()
+					.filter_map(|c| c
+						.to_digit(10)
+					)
 					.sum::<u32>() % 7 == 0 {
 					// Merge both blocks and send it back to main function
 					let product_key: String = format!("{}-{}", block_a, block_b);
@@ -63,7 +62,7 @@ fn validate_product_key(product_key: &str) -> bool {
 		.parse()
 		.unwrap_or_default();
 	// Get second block from product key
-	let block_b: u32 = product_key[4..=10]
+	let block_b: String = product_key[4..=10]
 		.parse()
 		.unwrap_or_default();
 	// Multiple conditions to check
@@ -77,7 +76,13 @@ fn validate_product_key(product_key: &str) -> bool {
 			.chars()
 			.nth(3) != Some('-')
 		) ||
-		(block_b % 7 != 0) {
+		(block_b
+			.to_string()
+			.chars()
+			.filter_map(|c| c
+				.to_digit(10)
+			)
+				.sum::<u32>() % 7 != 0) {
 		// Check fails if any of the conditions is true
 		return false;
 	} else {
