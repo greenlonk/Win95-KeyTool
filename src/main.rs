@@ -31,48 +31,42 @@ fn main() {
 fn generate_product_key() -> String {
 	let mut rng = rand::thread_rng();
 	loop {
-		let block_a: u32 = (0..=2)
-			.map(|_| rng
-				.gen_range('0'..='9')
-				.to_digit(10)
-				.unwrap_or_default()
-			)
-			.fold(0, |acc, digit| acc * 10 + digit);
-		if !((3..=9).contains(&(block_a / 111)) && block_a % 111 == 0) {
-			let block_b: u32 = (0..7)
-			.map(|_| rng
-				.gen_range('0'..='8')
-				.to_digit(10)
-				.unwrap_or_default()
-			)
-			.fold(0, |acc, digit| acc * 10 + digit);
-			let block_b_check: Vec<u32> = block_b
-				.to_string()
-				.chars()
-				.map(|c| c
-					.to_digit(10)
-					.unwrap()
+		// Generate first block of the product key
+		let block_a: u32 = rng
+			.gen_range(100..=998);
+		// Check if it matches all rules
+		if !(((3..=9).contains(&(block_a / 111))) && block_a % 111 == 0) {
+			loop {
+				// Generate second block of the product key
+				let block_b: u32 = (0..=6)
+					.map(|_| rng
+						.gen_range('0'..='8')
+						.to_digit(10)
+						.unwrap_or_default()
 				)
-				.collect();
-			if block_b_check
-				.iter()
-				.sum::<u32>() % 7 == 0 {
-				let product_key: String = format!("{}-{}", block_a, block_b);
-				return product_key;
+				.fold(0, |acc, digit| acc * 10 + digit);
+				// Check if it matches all rules
+				if vec![block_b]
+					.iter()
+					.sum::<u32>() % 7 == 0 {
+					// Merge both blocks and send it back to main function
+					let product_key: String = format!("{}-{}", block_a, block_b);
+					return product_key;
+				}
 			}
 		}
 	}
 }
 fn validate_product_key(product_key: &str) -> bool {
-	let block_a: u32 = product_key[0..3]
+	// Get first block from product key
+	let block_a: u32 = product_key[0..=2]
 		.parse()
 		.unwrap_or_default();
-	let block_b: u32 = product_key[4..]
-    	.chars()
-    	.filter_map(|c| c
-			.to_digit(10)
-		)
-    	.sum();
+	// Get second block from product key
+	let block_b: u32 = product_key[4..=10]
+		.parse()
+		.unwrap_or_default();
+	// Multiple conditions to check
 	if (product_key
 			.len() != 11
 		) ||
@@ -84,8 +78,10 @@ fn validate_product_key(product_key: &str) -> bool {
 			.nth(3) != Some('-')
 		) ||
 		(block_b % 7 != 0) {
+		// Check fails if any of the conditions is true
 		return false;
 	} else {
+		// Check successful
 		return true;
 	}
 }
