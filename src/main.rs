@@ -26,7 +26,7 @@ fn main() {
 		}
 	}
 
-	fn check_key_length(input: &String) -> bool {
+fn check_key_length(input: &String) -> bool {
 		if input.trim().len() == 11 || input.trim().len() == 8 {
 			return true;
 		} else {
@@ -34,7 +34,7 @@ fn main() {
 		}
 	}
 
-	fn parse_input(input: &String) -> Vec<usize> {
+fn parse_input(input: &String) -> Vec<usize> {
 		let key: Vec<usize>;
 
 		key = vec![
@@ -43,7 +43,7 @@ fn main() {
 		];
 		key
 	}
-	fn generate_product_key() -> Vec<usize> {
+fn generate_product_key() -> Vec<usize> {
 		loop {
 			let first_half = rand::thread_rng().gen_range(000..=998);
 			let second_half = rand::thread_rng().gen_range(0_000_000..=8_888_888);
@@ -55,7 +55,7 @@ fn main() {
 		}
 	}
 
-	fn validate_product_key(key: Vec<usize>) -> bool {
+fn validate_product_key(key: Vec<usize>) -> bool {
 		let first_three = key[0];
 		let last_seven = key[1];
 
@@ -70,7 +70,7 @@ fn main() {
 		false
 	}
 
-	fn second_check(number: usize) -> bool {
+fn second_check(number: usize) -> bool {
 		let mut n = number;
 		let mut sum = 0;
 
