@@ -1,12 +1,12 @@
 [package]
 name = "win95-keytool"
 description = "Product key generator / validator for Windows 95"
-authors = ["Nando Lawson"]
-version = "0.2.3"
+authors = ["Nando Lawson", "greenlonk"]
+version = "0.3.0"
 readme = "README.md"
 license = "GPL-3.0"
 exclude = ["target/", ".github/", ".gitignore"]
-repository = "https://github.com/nandolawson/Win95-KeyTool"
+repository = "https://github.com/greenlonk/Win95-KeyTool"
 edition = "2021"
 
 [dependencies]
